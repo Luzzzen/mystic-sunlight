@@ -3,7 +3,7 @@
    Inyecta navbar y footer en todas las páginas
    ============================================ */
 
-const WHATSAPP_NUMBER = '549XXXXXXXXXX'; // ← reemplazar con el número de Male
+const WHATSAPP_NUMBER = '5493444550449'; // ← reemplazar con el número de Male
 
 // ── Navbar HTML ──────────────────────────────
 function buildNavbar(activePage = '') {

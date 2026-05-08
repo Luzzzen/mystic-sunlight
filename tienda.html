@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tienda · Mystic Sunlight</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="tienda">
+
+  <section class="hero" style="padding-bottom:2rem">
+    <span class="corner-sun tl">✦</span>
+    <span class="corner-sun tr">✦</span>
+    <div class="hero-sun" style="font-size:3.5rem">🛍</div>
+    <h1 class="hero-title" style="font-size:clamp(1.6rem,4vw,2.6rem)">Tienda</h1>
+    <p class="hero-tagline">Productos esotéricos · Envíos a todo el país</p>
+  </section>
+
+  <section class="section" style="padding-top:1rem">
+
+    <div style="background:rgba(61,20,84,0.06);border-left:3px solid var(--gold);border-radius:0 var(--radius) var(--radius) 0;padding:1rem 1.25rem;font-size:0.85rem;color:var(--text-mid);line-height:1.65;max-width:700px;margin:0 auto 2.5rem">
+      🛍 <strong>¿Cómo comprar?</strong> Agregá los productos que quieras al carrito y enviá tu pedido por WhatsApp.
+      Male se contacta para coordinar pago y envío. <strong>Realizamos envíos a todo el país.</strong>
+    </div>
+
+    <h2 class="section-title">Productos</h2>
+    <hr class="gold-divider" />
+
+    <!-- Próximamente -->
+    <div style="text-align:center;padding:4rem 1rem;max-width:500px;margin:0 auto">
+      <div style="font-size:3rem;margin-bottom:1rem">✨</div>
+      <h3 style="font-family:var(--font-title);color:var(--violet);margin-bottom:0.75rem">Próximamente</h3>
+      <p style="font-size:0.88rem;color:var(--text-mid);line-height:1.7">
+        Estamos preparando el catálogo con sahumerios, cristales, mazos y más productos esotéricos.
+        Mientras tanto, podés consultar disponibilidad por WhatsApp.
+      </p>
+      <a href="https://wa.me/5493444550449?text=Hola%20Male!%20Quisiera%20consultar%20sobre%20productos%20disponibles." target="_blank" rel="noopener" class="btn btn-wa" style="margin-top:1.5rem;font-size:0.9rem;padding:0.85rem 2rem">
+        📲 Consultar disponibilidad
+      </a>
+    </div>
+
+    <!--
+      TEMPLATE para agregar productos cuando estén disponibles:
+
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-icon">🪔</div>
+          <div class="card-title">Nombre del producto</div>
+          <p class="card-desc">Descripción breve del producto.</p>
+          <div class="card-price">$XXXX</div>
+          <button class="btn btn-primary" data-product="Nombre del producto" onclick="addToCart('Nombre del producto', XXXX)">
+            Agregar al pedido
+          </button>
+        </div>
+      </div>
+    -->
+
+  </section>
+
+  <script src="js/nav.js"></script>
+  <script src="js/carrito.js"></script>
+</body>
+</html>

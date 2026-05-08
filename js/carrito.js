@@ -3,7 +3,7 @@
    Solo para la tienda (productos físicos)
    ============================================ */
 
-const WHATSAPP_NUMBER = '549XXXXXXXXXX'; // ← mismo número que en nav.js
+const WHATSAPP_NUMBER = '5493444550449'; // ← mismo número que en nav.js
 const WHATSAPP_GREETING = 'Hola Male! Vi la tienda de Mystic Sunlight y me gustaría hacer un pedido:\n\n';
 
 let cart = JSON.parse(localStorage.getItem('ms_cart') || '[]');
