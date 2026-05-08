@@ -3,22 +3,16 @@
    Inyecta navbar y footer en todas las páginas
    ============================================ */
 
-const WHATSAPP_NUMBER = '5493444550449'; // ← reemplazar con el número de Male
+// Detecta si estamos dentro de /servicios/
+const BASE = location.pathname.includes('/servicios/') ? '../' : '';
 
 // ── Navbar HTML ──────────────────────────────
 function buildNavbar(activePage = '') {
-  const pages = {
-    inicio:    'index.html',
-    tienda:    'tienda.html',
-    sobre:     'sobre.html',
-    contacto:  'contacto.html',
-  };
-
   const navHTML = `
     <nav id="navbar">
       <div class="nav-inner">
-        <a class="nav-logo" href="index.html">
-          <span class="sun-icon">☀</span>
+        <a class="nav-logo" href="${BASE}index.html">
+          <img src="${BASE}assets/logo.png" alt="Mystic Sunlight" class="nav-logo-img" />
           Mystic Sunlight
         </a>
 
@@ -27,21 +21,21 @@ function buildNavbar(activePage = '') {
         </button>
 
         <ul class="nav-links" id="nav-links">
-          <li><a href="index.html" ${activePage === 'inicio' ? 'class="active"' : ''}>Inicio</a></li>
+          <li><a href="${BASE}index.html" ${activePage === 'inicio' ? 'class="active"' : ''}>Inicio</a></li>
 
           <li class="nav-dropdown" id="dropdown-servicios">
             <button class="nav-dropdown-btn">
               Servicios <span class="arrow">▼</span>
             </button>
             <ul class="nav-dropdown-menu">
-              <li><a href="servicios/lecturas.html">🃏 Lecturas de Tarot</a></li>
-              <li><a href="servicios/oraculos.html">🔮 Oráculos</a></li>
-              <li><a href="servicios/pendulo.html">🌙 Péndulo</a></li>
+              <li><a href="${BASE}servicios/lecturas.html">🃏 Lecturas de Tarot</a></li>
+              <li><a href="${BASE}servicios/oraculos.html">🔮 Oráculos</a></li>
+              <li><a href="${BASE}servicios/pendulo.html">🌙 Péndulo</a></li>
             </ul>
           </li>
 
-          <li><a href="tienda.html" ${activePage === 'tienda' ? 'class="active"' : ''}>Tienda</a></li>
-          <li><a href="sobre.html" ${activePage === 'sobre' ? 'class="active"' : ''}>Sobre mí</a></li>
+          <li><a href="${BASE}tienda.html" ${activePage === 'tienda' ? 'class="active"' : ''}>Tienda</a></li>
+          <li><a href="${BASE}sobre.html" ${activePage === 'sobre' ? 'class="active"' : ''}>Sobre mí</a></li>
         </ul>
       </div>
     </nav>
@@ -56,15 +50,15 @@ function buildFooter() {
   const footerHTML = `
     <footer id="footer">
       <div class="footer-inner">
-        <div class="footer-sun">☀</div>
+        <img src="${BASE}assets/logo.png" alt="Mystic Sunlight" class="footer-logo-img" />
         <div class="footer-logo">Mystic Sunlight</div>
         <nav class="footer-links">
-          <a href="index.html">Inicio</a>
-          <a href="servicios/lecturas.html">Lecturas</a>
-          <a href="servicios/oraculos.html">Oráculos</a>
-          <a href="servicios/pendulo.html">Péndulo</a>
-          <a href="tienda.html">Tienda</a>
-          <a href="sobre.html">Sobre mí</a>
+          <a href="${BASE}index.html">Inicio</a>
+          <a href="${BASE}servicios/lecturas.html">Lecturas</a>
+          <a href="${BASE}servicios/oraculos.html">Oráculos</a>
+          <a href="${BASE}servicios/pendulo.html">Péndulo</a>
+          <a href="${BASE}tienda.html">Tienda</a>
+          <a href="${BASE}sobre.html">Sobre mí</a>
         </nav>
         <div class="footer-ig">
           <a href="https://instagram.com/mystic.sunlight" target="_blank" rel="noopener">
@@ -81,12 +75,10 @@ function buildFooter() {
 
 // ── Eventos de navegación ────────────────────
 function initNavEvents() {
-  // Hamburger
   const hamburger = document.getElementById('hamburger');
   const navLinks  = document.getElementById('nav-links');
   hamburger?.addEventListener('click', () => navLinks.classList.toggle('open'));
 
-  // Dropdown Servicios
   const dropdown = document.getElementById('dropdown-servicios');
   const btn = dropdown?.querySelector('.nav-dropdown-btn');
 
@@ -95,12 +87,7 @@ function initNavEvents() {
     dropdown.classList.toggle('open');
   });
 
-  // Cerrar dropdown al clickear afuera
-  document.addEventListener('click', () => {
-    dropdown?.classList.remove('open');
-  });
-
-  // Evitar que el click dentro del dropdown lo cierre
+  document.addEventListener('click', () => dropdown?.classList.remove('open'));
   dropdown?.addEventListener('click', (e) => e.stopPropagation());
 }
 

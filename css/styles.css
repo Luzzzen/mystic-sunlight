@@ -595,3 +595,31 @@ a  { text-decoration: none; color: inherit; }
   #cart-btn { bottom: 1rem; right: 1rem; padding: 0.65rem 1rem; }
   #cart-panel { right: 1rem; left: 1rem; width: auto; bottom: 4.5rem; }
 }
+
+/* ── Logo imagen ────────────────────────────── */
+.nav-logo-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid rgba(200, 152, 30, 0.4);
+}
+
+.footer-logo-img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(200, 152, 30, 0.4);
+  margin-bottom: 0.25rem;
+}
+
+.hero-logo-img {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(200, 152, 30, 0.5);
+  box-shadow: 0 8px 32px rgba(61, 20, 84, 0.25);
+  animation: float 4s ease-in-out infinite;
+}
