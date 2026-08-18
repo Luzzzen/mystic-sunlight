@@ -24,13 +24,12 @@ function buildNavbar(activePage = '') {
           <li><a href="${BASE}index.html" ${activePage === 'inicio' ? 'class="active"' : ''}>Inicio</a></li>
 
           <li class="nav-dropdown" id="dropdown-servicios">
-            <button class="nav-dropdown-btn">
+            <button class="nav-dropdown-btn ${activePage === 'servicios' ? 'active' : ''}">
               Servicios <span class="arrow">▼</span>
             </button>
             <ul class="nav-dropdown-menu">
               <li><a href="${BASE}servicios/lecturas.html">🃏 Lecturas de Tarot</a></li>
-              <li><a href="${BASE}servicios/oraculos.html">🔮 Oráculos</a></li>
-              <li><a href="${BASE}servicios/pendulo.html">🌙 Péndulo</a></li>
+              <li><a href="${BASE}servicios/rituales.html">🕯️ Rituales con Velas</a></li>
             </ul>
           </li>
 
@@ -55,8 +54,8 @@ function buildFooter() {
         <nav class="footer-links">
           <a href="${BASE}index.html">Inicio</a>
           <a href="${BASE}servicios/lecturas.html">Lecturas</a>
+          <a href="${BASE}servicios/rituales.html">Rituales</a>
           <a href="${BASE}servicios/oraculos.html">Oráculos</a>
-          <a href="${BASE}servicios/pendulo.html">Péndulo</a>
           <a href="${BASE}tienda.html">Tienda</a>
           <a href="${BASE}sobre.html">Sobre mí</a>
         </nav>
@@ -65,7 +64,7 @@ function buildFooter() {
             ✦ @mystic.sunlight
           </a>
         </div>
-        <p class="footer-copy">© 2025 Mystic Sunlight · Tarot & Esoterismo</p>
+        <p class="footer-copy">© 2026 Mystic Sunlight · Tarot & Esoterismo</p>
       </div>
     </footer>
   `;

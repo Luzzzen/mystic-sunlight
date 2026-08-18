@@ -117,7 +117,8 @@ a  { text-decoration: none; color: inherit; }
   color: var(--violet);
 }
 
-.nav-links a.active {
+.nav-links a.active,
+.nav-dropdown-btn.active {
   background: var(--violet);
   color: var(--cream);
 }
@@ -318,8 +319,9 @@ a  { text-decoration: none; color: inherit; }
 #cart-clear:hover { background: rgba(61, 20, 84, 0.06); }
 
 #cart-whatsapp {
-  background: #25D366;
-  color: #fff;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+  color: var(--violet);
+  font-weight: 700;
   border: none;
   border-radius: 999px;
   padding: 0.7rem 1.2rem;
@@ -526,10 +528,13 @@ a  { text-decoration: none; color: inherit; }
 .btn-gold:hover { filter: brightness(1.05); }
 
 .btn-wa {
-  background: #25D366;
-  color: #fff;
-  box-shadow: 0 3px 12px rgba(37, 211, 102, 0.3);
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+  color: var(--violet);
+  font-weight: 700;
+  box-shadow: 0 3px 12px rgba(200, 152, 30, 0.35);
 }
+
+.btn-wa:hover { filter: brightness(1.05); }
 
 /* Hero */
 .hero {
