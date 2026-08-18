@@ -21,6 +21,21 @@
       color: var(--text-mid);
       line-height: 1.65;
     }
+    .mazo-card { padding: 0; overflow: hidden; }
+    .mazo-img {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      display: block;
+    }
+    .mazo-nombre {
+      font-family: var(--font-title);
+      font-size: 0.92rem;
+      letter-spacing: 0.05em;
+      color: var(--violet);
+      text-align: center;
+      padding: 0.9rem 0.75rem;
+    }
   </style>
 </head>
 <body data-page="servicios">
@@ -38,27 +53,43 @@
     <div class="info-box" style="max-width:700px;margin:0 auto 2.5rem">
       🔮 <strong>¿Qué es una lectura de oráculo?</strong> A diferencia del tarot, el oráculo entrega mensajes más directos e intuitivos.
       Es ideal para momentos donde necesitás una orientación clara y rápida, sin una tirada extensa.
+      <strong>Va incluido en cualquier lectura de Tarot, sin cargo.</strong>
     </div>
 
-    <h2 class="section-title">Consultas disponibles</h2>
+    <h2 class="section-title">Mis mazos</h2>
+    <p class="section-subtitle">Estos son los oráculos con los que trabajo hoy</p>
     <hr class="gold-divider" />
 
     <div class="cards-grid" style="margin-bottom:3rem">
 
-      <div class="card">
-        <div class="card-icon">🌟</div>
-        <div class="card-title">Mensaje del día</div>
-        <p class="card-desc">Una carta de oráculo con el mensaje que el universo tiene para vos hoy. Simple, directo y poderoso.</p>
-        <div class="card-price">Incluido en tu lectura de Tarot</div>
-        <a href="https://wa.me/5493644450449?text=Hola%20Male!%20Me%20interesa%20el%20Mensaje%20del%20D%C3%ADa%20de%20Or%C3%A1culo." target="_blank" rel="noopener" class="btn btn-wa">📲 Reservar</a>
+      <div class="card mazo-card">
+        <img src="../assets/oraculos/lenormand.jpg" alt="Romantic Lenormand" class="mazo-img" />
+        <div class="mazo-nombre">Romantic Lenormand</div>
       </div>
 
-      <div class="card">
-        <div class="card-icon">💫</div>
-        <div class="card-title">Consejo para tu momento</div>
-        <p class="card-desc">Me contás la situación que estás atravesando y te traigo un consejo claro a través del oráculo, para ayudarte a ver con más claridad hacia dónde ir.</p>
-        <div class="card-price">Incluido en tu lectura de Tarot</div>
-        <a href="https://wa.me/5493644450449?text=Hola%20Male!%20Me%20interesa%20un%20Consejo%20para%20mi%20momento%20con%20or%C3%A1culo." target="_blank" rel="noopener" class="btn btn-wa">📲 Reservar</a>
+      <div class="card mazo-card">
+        <img src="../assets/oraculos/piedras.jpg" alt="Oráculo de las Piedras" class="mazo-img" />
+        <div class="mazo-nombre">Oráculo de las Piedras</div>
+      </div>
+
+      <div class="card mazo-card">
+        <img src="../assets/oraculos/astro-tuluz.jpg" alt="Astro Oráculo Tuluz" class="mazo-img" />
+        <div class="mazo-nombre">Astro Oráculo Tuluz</div>
+      </div>
+
+      <div class="card mazo-card">
+        <img src="../assets/oraculos/plantas-ancestrales.jpg" alt="Oráculo Plantas Ancestrales" class="mazo-img" />
+        <div class="mazo-nombre">Plantas Ancestrales</div>
+      </div>
+
+      <div class="card mazo-card">
+        <img src="../assets/oraculos/gatos-misticos.jpg" alt="Oráculo de los Gatos Místicos" class="mazo-img" />
+        <div class="mazo-nombre">Gatos Místicos</div>
+      </div>
+
+      <div class="card mazo-card">
+        <img src="../assets/oraculos/esencia-estelar.jpg" alt="Oráculo Esencia Estelar Tuluz" class="mazo-img" />
+        <div class="mazo-nombre">Esencia Estelar Tuluz</div>
       </div>
 
     </div>
