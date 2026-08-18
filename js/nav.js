@@ -16,7 +16,7 @@ function buildNavbar(activePage = '') {
           Mystic Sunlight
         </a>
 
-        <button class="nav-hamburger" id="hamburger" aria-label="Menú">
+        <button class="nav-hamburger" id="hamburger" aria-label="Menú" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>
 
@@ -24,7 +24,7 @@ function buildNavbar(activePage = '') {
           <li><a href="${BASE}index.html" ${activePage === 'inicio' ? 'class="active"' : ''}>Inicio</a></li>
 
           <li class="nav-dropdown" id="dropdown-servicios">
-            <button class="nav-dropdown-btn ${activePage === 'servicios' ? 'active' : ''}">
+            <button class="nav-dropdown-btn ${activePage === 'servicios' ? 'active' : ''}" aria-expanded="false">
               Servicios <span class="arrow">▼</span>
             </button>
             <ul class="nav-dropdown-menu">
@@ -76,17 +76,24 @@ function buildFooter() {
 function initNavEvents() {
   const hamburger = document.getElementById('hamburger');
   const navLinks  = document.getElementById('nav-links');
-  hamburger?.addEventListener('click', () => navLinks.classList.toggle('open'));
+  hamburger?.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+  });
 
   const dropdown = document.getElementById('dropdown-servicios');
   const btn = dropdown?.querySelector('.nav-dropdown-btn');
 
   btn?.addEventListener('click', (e) => {
     e.stopPropagation();
-    dropdown.classList.toggle('open');
+    const isOpen = dropdown.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(isOpen));
   });
 
-  document.addEventListener('click', () => dropdown?.classList.remove('open'));
+  document.addEventListener('click', () => {
+    dropdown?.classList.remove('open');
+    btn?.setAttribute('aria-expanded', 'false');
+  });
   dropdown?.addEventListener('click', (e) => e.stopPropagation());
 }
 
