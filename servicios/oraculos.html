@@ -21,20 +21,103 @@
       color: var(--text-mid);
       line-height: 1.65;
     }
-    .mazo-card { padding: 0; overflow: hidden; }
-    .mazo-img {
-      width: 100%;
-      aspect-ratio: 3 / 4;
-      object-fit: cover;
-      display: block;
+    .mazo-carousel {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
     }
-    .mazo-nombre {
+    .mazo-viewport {
+      position: relative;
+      width: 100%;
+      max-width: 640px;
+      height: 340px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .mazo-slide {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 190px;
+      height: 300px;
+      background: rgba(245, 237, 232, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(200, 152, 30, 0.3);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      padding: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: transform 0.45s cubic-bezier(.22,.61,.36,1), opacity 0.45s ease;
+      will-change: transform, opacity;
+    }
+    .mazo-slide img {
+      max-width: 100%;
+      max-height: 230px;
+      object-fit: contain;
+      border-radius: 6px;
+      pointer-events: none;
+    }
+    .mazo-slide-nombre {
       font-family: var(--font-title);
-      font-size: 0.92rem;
-      letter-spacing: 0.05em;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
       color: var(--violet);
       text-align: center;
-      padding: 0.9rem 0.75rem;
+      line-height: 1.3;
+    }
+    .mazo-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 50;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--violet);
+      color: var(--cream);
+      border: none;
+      font-size: 1.3rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 12px rgba(61, 20, 84, 0.3);
+      transition: transform 0.18s;
+    }
+    .mazo-arrow:hover { transform: translateY(-50%) scale(1.08); }
+    .mazo-arrow-prev { left: -6px; }
+    .mazo-arrow-next { right: -6px; }
+    .mazo-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+    .mazo-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(61, 20, 84, 0.2);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .mazo-dot.active { background: var(--violet); transform: scale(1.25); }
+
+    @media (min-width: 640px) {
+      .mazo-slide { width: 230px; height: 320px; }
+      .mazo-slide img { max-height: 250px; }
+      .mazo-arrow-prev { left: 0.5rem; }
+      .mazo-arrow-next { right: 0.5rem; }
     }
   </style>
 </head>
@@ -60,39 +143,14 @@
     <p class="section-subtitle">Estos son los oráculos con los que trabajo hoy</p>
     <hr class="gold-divider" />
 
-    <div class="cards-grid" style="margin-bottom:3rem">
-
-      <div class="card mazo-card">
-        <img src="../assets/oraculos/lenormand.jpg" alt="Romantic Lenormand" class="mazo-img" />
-        <div class="mazo-nombre">Romantic Lenormand</div>
+    <div class="mazo-carousel">
+      <button class="mazo-arrow mazo-arrow-prev" id="mazo-prev" aria-label="Mazo anterior">‹</button>
+      <div class="mazo-viewport">
+        <div id="mazo-track"></div>
       </div>
-
-      <div class="card mazo-card">
-        <img src="../assets/oraculos/piedras.jpg" alt="Oráculo de las Piedras" class="mazo-img" />
-        <div class="mazo-nombre">Oráculo de las Piedras</div>
-      </div>
-
-      <div class="card mazo-card">
-        <img src="../assets/oraculos/astro-tuluz.jpg" alt="Astro Oráculo Tuluz" class="mazo-img" />
-        <div class="mazo-nombre">Astro Oráculo Tuluz</div>
-      </div>
-
-      <div class="card mazo-card">
-        <img src="../assets/oraculos/plantas-ancestrales.jpg" alt="Oráculo Plantas Ancestrales" class="mazo-img" />
-        <div class="mazo-nombre">Plantas Ancestrales</div>
-      </div>
-
-      <div class="card mazo-card">
-        <img src="../assets/oraculos/gatos-misticos.jpg" alt="Oráculo de los Gatos Místicos" class="mazo-img" />
-        <div class="mazo-nombre">Gatos Místicos</div>
-      </div>
-
-      <div class="card mazo-card">
-        <img src="../assets/oraculos/esencia-estelar.jpg" alt="Oráculo Esencia Estelar Tuluz" class="mazo-img" />
-        <div class="mazo-nombre">Esencia Estelar Tuluz</div>
-      </div>
-
+      <button class="mazo-arrow mazo-arrow-next" id="mazo-next" aria-label="Mazo siguiente">›</button>
     </div>
+    <div class="mazo-dots" id="mazo-dots"></div>
 
     <div class="info-box" style="max-width:700px;margin:0 auto 2rem">
       💡 <strong>¿Querés un oráculo solo, sin lectura de Tarot?</strong> Escribime y coordinamos igual.
@@ -107,5 +165,99 @@
   </section>
 
   <script src="../js/nav.js"></script>
+  <script>
+    // ── Datos de los mazos ────────────────────────
+    // Para sumar un mazo nuevo, alcanza con agregar un objeto acá.
+    const MAZOS = [
+      { img: '../assets/oraculos/lenormand.jpg', nombre: 'Romantic Lenormand' },
+      { img: '../assets/oraculos/piedras.jpg', nombre: 'Oráculo de las Piedras' },
+      { img: '../assets/oraculos/astro-tuluz.jpg', nombre: 'Astro Oráculo Tuluz' },
+      { img: '../assets/oraculos/plantas-ancestrales.jpg', nombre: 'Plantas Ancestrales' },
+      { img: '../assets/oraculos/gatos-misticos.jpg', nombre: 'Gatos Místicos' },
+      { img: '../assets/oraculos/esencia-estelar.jpg', nombre: 'Esencia Estelar Tuluz' },
+    ];
+
+    (function initMazoCarousel() {
+      const track = document.getElementById('mazo-track');
+      const dotsWrap = document.getElementById('mazo-dots');
+      const btnPrev = document.getElementById('mazo-prev');
+      const btnNext = document.getElementById('mazo-next');
+      if (!track) return;
+
+      const n = MAZOS.length;
+      let current = 0;
+
+      // Construir slides
+      const slides = MAZOS.map((mazo, i) => {
+        const el = document.createElement('div');
+        el.className = 'mazo-slide';
+        el.innerHTML = `<img src="${mazo.img}" alt="${mazo.nombre}" loading="lazy" /><div class="mazo-slide-nombre">${mazo.nombre}</div>`;
+        el.addEventListener('click', () => { if (i !== current) { current = i; render(); } });
+        track.appendChild(el);
+        return el;
+      });
+
+      // Construir puntitos
+      const dots = MAZOS.map((mazo, i) => {
+        const d = document.createElement('button');
+        d.className = 'mazo-dot';
+        d.setAttribute('aria-label', `Ver ${mazo.nombre}`);
+        d.addEventListener('click', () => { current = i; render(); });
+        dotsWrap.appendChild(d);
+        return d;
+      });
+
+      function shortestDiff(i, cur) {
+        let d = i - cur;
+        if (d > n / 2) d -= n;
+        if (d < -n / 2) d += n;
+        return d;
+      }
+
+      function render() {
+        const gap = 24;
+        slides.forEach((slide, i) => {
+          const diff = shortestDiff(i, current);
+          const absDiff = Math.abs(diff);
+          const slideWidth = slide.offsetWidth || 190;
+          const offset = slideWidth * 0.72 + gap;
+          const scale = absDiff === 0 ? 1 : absDiff === 1 ? 0.76 : 0.6;
+          const opacity = absDiff === 0 ? 1 : absDiff === 1 ? 0.55 : absDiff === 2 ? 0.22 : 0;
+          slide.style.transform = `translate(-50%, -50%) translateX(${diff * offset}px) scale(${scale})`;
+          slide.style.opacity = opacity;
+          slide.style.zIndex = String(100 - absDiff);
+          slide.style.pointerEvents = absDiff <= 2 ? 'auto' : 'none';
+        });
+        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+      }
+
+      function next() { current = (current + 1) % n; render(); }
+      function prev() { current = (current - 1 + n) % n; render(); }
+
+      btnNext?.addEventListener('click', next);
+      btnPrev?.addEventListener('click', prev);
+
+      // Swipe táctil
+      let touchStartX = null;
+      const viewport = track.parentElement;
+      viewport.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+      viewport.addEventListener('touchend', (e) => {
+        if (touchStartX === null) return;
+        const delta = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(delta) > 40) { delta < 0 ? next() : prev(); }
+        touchStartX = null;
+      }, { passive: true });
+
+      // Flechas del teclado
+      viewport.parentElement.setAttribute('tabindex', '0');
+      viewport.parentElement.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') next();
+        if (e.key === 'ArrowLeft') prev();
+      });
+
+      window.addEventListener('resize', render);
+      render();
+    })();
+  </script>
 </body>
 </html>
