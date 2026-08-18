@@ -436,9 +436,15 @@ a  { text-decoration: none; color: inherit; }
 
 /* Cards de productos/servicios */
 .cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 1.5rem;
+}
+
+.cards-grid > * {
+  flex: 1 1 280px;
+  max-width: 320px;
 }
 
 .card {
