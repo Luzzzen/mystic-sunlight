@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin · Mystic Sunlight</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" type="image/png" href="assets/logo.png" />
+  <style>
+    body { background: linear-gradient(180deg, var(--rose-pale) 0%, var(--rose) 100%); min-height: 100vh; }
+
+    .admin-header {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 1.5rem 1.5rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .admin-header img { width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid rgba(200,152,30,0.4); }
+    .admin-header-title { display: flex; align-items: center; gap: 0.6rem; font-family: var(--font-title); color: var(--violet); }
+    .admin-user { font-size: 0.8rem; color: var(--text-mid); }
+
+    #login-view {
+      min-height: 90vh;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .login-card {
+      background: rgba(245, 237, 232, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(200, 152, 30, 0.25);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      padding: 2.5rem 2rem;
+      max-width: 380px;
+      width: 100%;
+      text-align: center;
+    }
+    .login-card img { width: 64px; margin-bottom: 1rem; border-radius: 50%; border: 2px solid rgba(200,152,30,0.4); }
+    .login-card h1 { font-size: 1.3rem; margin-bottom: 1.5rem; }
+    .form-field { text-align: left; margin-bottom: 1rem; }
+    .form-field label { display: block; font-size: 0.8rem; color: var(--text-mid); margin-bottom: 0.3rem; }
+    .form-field input, .form-field textarea {
+      width: 100%;
+      padding: 0.65rem 0.85rem;
+      border-radius: 8px;
+      border: 1px solid rgba(200,152,30,0.3);
+      background: rgba(255,255,255,0.6);
+      font-family: inherit;
+      font-size: 0.9rem;
+      color: var(--text-dark);
+    }
+    .form-field textarea { resize: vertical; min-height: 60px; }
+    #login-error {
+      display: none;
+      background: rgba(180,50,50,0.1);
+      color: #a33;
+      border-radius: 8px;
+      padding: 0.6rem;
+      font-size: 0.82rem;
+      margin-bottom: 1rem;
+    }
+
+    #admin-view { display: none; max-width: 900px; margin: 0 auto; padding: 1.5rem; }
+
+    .admin-section {
+      background: rgba(245, 237, 232, 0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(200, 152, 30, 0.2);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .admin-section h2 { font-size: 1.1rem; margin-bottom: 1rem; }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
+    .form-grid .full { grid-column: 1 / -1; }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+
+    .admin-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 0.5rem;
+      border-bottom: 1px solid rgba(200,152,30,0.15);
+      flex-wrap: wrap;
+    }
+    .admin-item:last-child { border-bottom: none; }
+    .admin-item.inactivo { opacity: 0.5; }
+    .admin-item-info { display: flex; flex-direction: column; gap: 0.15rem; }
+    .admin-item-meta { font-size: 0.78rem; color: var(--text-mid); }
+    .admin-item-actions { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+    .btn-mini {
+      font-family: var(--font-title);
+      font-size: 0.75rem;
+      padding: 0.4rem 0.75rem;
+      border-radius: 20px;
+      border: 1px solid rgba(61,20,84,0.25);
+      background: transparent;
+      color: var(--violet);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-mini:hover { background: rgba(61,20,84,0.08); }
+    .btn-mini-danger { border-color: rgba(180,50,50,0.3); color: #a33; }
+    .btn-mini-danger:hover { background: rgba(180,50,50,0.08); }
+
+    #cancel-edit { display: none; }
+  </style>
+</head>
+<body>
+
+  <div class="admin-header">
+    <div class="admin-header-title">
+      <img src="assets/logo.png" alt="Mystic Sunlight" />
+      Panel de administración
+    </div>
+    <div id="admin-view-header" style="display:none;align-items:center;gap:0.75rem">
+      <span class="admin-user" id="user-email"></span>
+      <button class="btn-mini" id="logout-btn">Salir</button>
+    </div>
+  </div>
+
+  <!-- ── Login ── -->
+  <div id="login-view" style="display:flex">
+    <div class="login-card">
+      <img src="assets/logo.png" alt="Mystic Sunlight" />
+      <h1>Iniciar sesión</h1>
+      <div id="login-error"></div>
+      <form id="login-form">
+        <div class="form-field">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" required autocomplete="username" />
+        </div>
+        <div class="form-field">
+          <label for="login-password">Contraseña</label>
+          <input type="password" id="login-password" required autocomplete="current-password" />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;margin-top:0.5rem">Entrar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ── Panel ── -->
+  <div id="admin-view">
+
+    <div class="admin-section">
+      <h2 id="form-title">Nuevo producto</h2>
+      <form id="product-form">
+        <div class="form-grid">
+          <div class="form-field full">
+            <label for="f-nombre">Nombre</label>
+            <input type="text" id="f-nombre" required />
+          </div>
+          <div class="form-field full">
+            <label for="f-descripcion">Descripción</label>
+            <textarea id="f-descripcion"></textarea>
+          </div>
+          <div class="form-field">
+            <label for="f-precio">Precio ($)</label>
+            <input type="number" id="f-precio" min="0" step="1" required />
+          </div>
+          <div class="form-field">
+            <label for="f-stock">Stock</label>
+            <input type="number" id="f-stock" min="0" step="1" value="0" />
+          </div>
+          <div class="form-field">
+            <label for="f-categoria">Categoría</label>
+            <input type="text" id="f-categoria" placeholder="sahumerios, cristales, velas..." />
+          </div>
+          <div class="form-field">
+            <label for="f-orden">Orden (menor = primero)</label>
+            <input type="number" id="f-orden" step="1" value="0" />
+          </div>
+          <div class="form-field full">
+            <label for="f-imagen">URL de imagen (opcional)</label>
+            <input type="url" id="f-imagen" placeholder="https://..." />
+          </div>
+        </div>
+        <div style="display:flex;gap:0.75rem;margin-top:0.5rem">
+          <button type="submit" class="btn btn-primary">Guardar</button>
+          <button type="button" id="cancel-edit" class="btn-mini">Cancelar edición</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="admin-section">
+      <h2>Productos</h2>
+      <div id="product-list"></div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

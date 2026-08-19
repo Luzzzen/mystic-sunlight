@@ -26,6 +26,31 @@ create policy "Productos activos son públicos"
   on productos for select
   using (activo = true);
 
+-- ── Permisos del panel de administración ─────
+-- Cualquier usuario logueado (vos y tu novia, una vez que
+-- creen sus cuentas en Supabase → Authentication) puede
+-- ver TODOS los productos y crear/editar/borrar.
+create policy "Usuarios logueados ven todos los productos"
+  on productos for select
+  to authenticated
+  using (true);
+
+create policy "Usuarios logueados crean productos"
+  on productos for insert
+  to authenticated
+  with check (true);
+
+create policy "Usuarios logueados editan productos"
+  on productos for update
+  to authenticated
+  using (true)
+  with check (true);
+
+create policy "Usuarios logueados borran productos"
+  on productos for delete
+  to authenticated
+  using (true);
+
 -- ── Productos de prueba ──────────────────────
 -- Fácil de identificar y borrar: buscá "PRUEBA" en el
 -- Table Editor de Supabase y eliminá esas filas cuando
