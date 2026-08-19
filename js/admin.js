@@ -94,7 +94,7 @@ async function subirImagenPendiente() {
   const path = `productos/${Date.now()}-${Math.round(Math.random() * 1e6)}.jpg`;
   const { error } = await supabaseClient.storage
     .from('productos')
-    .upload(path, pendingImageBlob, { contentType: 'image/jpeg', upsert: true });
+    .upload(path, pendingImageBlob, { contentType: 'image/jpeg' });
   if (error) throw error;
   const { data } = supabaseClient.storage.from('productos').getPublicUrl(path);
   return data.publicUrl;
