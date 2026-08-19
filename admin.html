@@ -178,8 +178,15 @@
             <input type="number" id="f-orden" step="1" value="0" />
           </div>
           <div class="form-field full">
-            <label for="f-imagen">URL de imagen (opcional)</label>
-            <input type="url" id="f-imagen" placeholder="https://..." />
+            <label for="f-imagen-file">Imagen del producto (opcional)</label>
+            <input type="file" id="f-imagen-file" accept="image/*" />
+            <p style="font-size:0.75rem;color:var(--text-mid);margin-top:0.35rem">
+              Se comprime automáticamente al subirla, no hace falta editarla antes.
+            </p>
+            <div id="imagen-preview-wrap" style="display:none;margin-top:0.75rem;align-items:center;gap:0.75rem">
+              <img id="imagen-preview" style="width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid rgba(200,152,30,0.3)" />
+              <button type="button" id="quitar-imagen" class="btn-mini btn-mini-danger">Quitar imagen</button>
+            </div>
           </div>
         </div>
         <div style="display:flex;gap:0.75rem;margin-top:0.5rem">
