@@ -32,8 +32,11 @@
     <h2 class="section-title">Productos</h2>
     <hr class="gold-divider" />
 
-    <!-- Próximamente -->
-    <div style="text-align:center;padding:4rem 1rem;max-width:500px;margin:0 auto">
+    <!-- Se llena con JS desde Supabase (js/tienda.js) -->
+    <div class="cards-grid" id="productos-grid" style="display:none;margin-bottom:2rem"></div>
+
+    <!-- Se muestra solo si no hay productos cargados todavía -->
+    <div id="productos-vacio" style="text-align:center;padding:4rem 1rem;max-width:500px;margin:0 auto;display:none">
       <div style="font-size:3rem;margin-bottom:1rem">✨</div>
       <h3 style="font-family:var(--font-title);color:var(--violet);margin-bottom:0.75rem">Próximamente</h3>
       <p style="font-size:0.88rem;color:var(--text-mid);line-height:1.7">
@@ -45,25 +48,12 @@
       </a>
     </div>
 
-    <!--
-      TEMPLATE para agregar productos cuando estén disponibles:
-
-      <div class="cards-grid">
-        <div class="card">
-          <div class="card-icon">🪔</div>
-          <div class="card-title">Nombre del producto</div>
-          <p class="card-desc">Descripción breve del producto.</p>
-          <div class="card-price">$XXXX</div>
-          <button class="btn btn-primary" data-product="Nombre del producto" onclick="addToCart('Nombre del producto', XXXX)">
-            Agregar al pedido
-          </button>
-        </div>
-      </div>
-    -->
-
   </section>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
   <script src="js/nav.js"></script>
   <script src="js/carrito.js"></script>
+  <script src="js/tienda.js"></script>
 </body>
 </html>
