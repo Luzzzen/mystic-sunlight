@@ -175,12 +175,12 @@ async function loadProducts() {
     <div class="admin-item ${p.activo ? '' : 'inactivo'}">
       <div class="admin-item-info">
         <strong>${escapeHTML(p.nombre)}</strong>
-        <span class="admin-item-meta">$${Number(p.precio).toLocaleString('es-AR')} · stock: ${p.stock} · ${p.categoria || 'sin categoría'} ${p.activo ? '' : '· <em>oculto</em>'}</span>
+        <span class="admin-item-meta">$${Number(p.precio).toLocaleString('es-AR')} · stock: ${escapeHTML(p.stock)} · ${escapeHTML(p.categoria || 'sin categoría')} ${p.activo ? '' : '· <em>oculto</em>'}</span>
       </div>
       <div class="admin-item-actions">
-        <button class="btn-mini" onclick="toggleActivo('${p.id}', ${p.activo})">${p.activo ? 'Ocultar' : 'Mostrar'}</button>
-        <button class="btn-mini" onclick="editProduct('${p.id}')">Editar</button>
-        <button class="btn-mini btn-mini-danger" onclick="deleteProduct('${p.id}', '${escapeJS(p.nombre)}')">Borrar</button>
+        <button class="btn-mini" onclick="toggleActivo('${escapeJS(p.id)}', ${!!p.activo})">${p.activo ? 'Ocultar' : 'Mostrar'}</button>
+        <button class="btn-mini" onclick="editProduct('${escapeJS(p.id)}')">Editar</button>
+        <button class="btn-mini btn-mini-danger" onclick="deleteProduct('${escapeJS(p.id)}', '${escapeJS(p.nombre)}')">Borrar</button>
       </div>
     </div>
   `).join('');
@@ -286,12 +286,12 @@ async function deleteProduct(id, nombre) {
 
 // ── Helpers ─────────────────────────────────────
 function escapeHTML(str) {
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
+  return String(str ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
+// Para meter texto dentro de un onclick="fn('...')": primero se escapa para JS y después para HTML
 function escapeJS(str) {
-  return String(str).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+  return escapeHTML(String(str ?? '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\r?\n/g, ' '));
 }
 
 document.addEventListener('DOMContentLoaded', checkSession);

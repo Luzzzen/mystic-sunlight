@@ -6,7 +6,16 @@
 const WHATSAPP_NUMBER = '5493644450449'; // ← mismo número que en nav.js
 const WHATSAPP_GREETING = 'Hola Male! Vi la tienda de Mystic Sunlight y me gustaría hacer un pedido:\n\n';
 
-let cart = JSON.parse(localStorage.getItem('ms_cart') || '[]');
+// Si el carrito guardado está roto, se arranca vacío en vez de romper la página
+let cart = [];
+try {
+  const guardado = JSON.parse(localStorage.getItem('ms_cart') || '[]');
+  if (Array.isArray(guardado)) cart = guardado.filter(i => i && typeof i.name === 'string' && Number.isFinite(i.price) && i.qty > 0);
+} catch {}
+
+function escapeCarrito(str) {
+  return String(str ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
 
 // ── Render del carrito ───────────────────────
 function renderCart() {
@@ -25,7 +34,7 @@ function renderCart() {
     } else {
       itemsEl.innerHTML = cart.map((item, idx) => `
         <div class="cart-item">
-          <span class="cart-item-name">${item.name}</span>
+          <span class="cart-item-name">${escapeCarrito(item.name)}</span>
           <span class="cart-item-price">$${(item.price * item.qty).toLocaleString('es-AR')}</span>
           <button class="cart-item-remove" onclick="removeItem(${idx})" title="Quitar">✕</button>
         </div>
@@ -35,7 +44,7 @@ function renderCart() {
 
   if (totalEl) totalEl.textContent = `Total: $${total.toLocaleString('es-AR')}`;
 
-  localStorage.setItem('ms_cart', JSON.stringify(cart));
+  try { localStorage.setItem('ms_cart', JSON.stringify(cart)); } catch {}
 }
 
 // ── Agregar producto ─────────────────────────

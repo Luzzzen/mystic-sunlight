@@ -11,11 +11,13 @@ async function cargarProductos() {
   if (!grid) return;
 
   try {
+    // Si Supabase no responde en 10 segundos, se corta y se avisa
     const { data, error } = await supabaseClient
       .from('productos')
-      .select('*')
+      .select('id, nombre, descripcion, precio, imagen_url, orden')
       .eq('activo', true)
-      .order('orden', { ascending: true });
+      .order('orden', { ascending: true })
+      .abortSignal(AbortSignal.timeout(10000));
 
     if (error) throw error;
 
@@ -27,7 +29,7 @@ async function cargarProductos() {
     grid.innerHTML = data.map(p => `
       <div class="card">
         ${p.imagen_url
-          ? `<img src="${p.imagen_url}" alt="${escapeHTML(p.nombre)}" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;margin-bottom:0.25rem" />`
+          ? `<img src="${escapeHTML(p.imagen_url)}" alt="${escapeHTML(p.nombre)}" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;margin-bottom:0.25rem" />`
           : `<div class="card-icon">🪔</div>`
         }
         <div class="card-title">${escapeHTML(p.nombre)}</div>
@@ -42,22 +44,23 @@ async function cargarProductos() {
     grid.style.display = 'flex';
     vacio.style.display = 'none';
   } catch (err) {
-    // Si algo falla (sin conexión, tabla no creada todavía, etc.)
-    // se queda el bloque "Próximamente" que ya estaba en el HTML.
+    // Si algo falla (sin conexión, Supabase caído, etc.)
     console.warn('No se pudieron cargar los productos:', err.message);
+    // Avisar en vez de mostrar "Próximamente" (que da a entender que no hay productos)
+    vacio.innerHTML = '<p>No pudimos cargar los productos. Revisá tu conexión y recargá la página.</p>';
+    vacio.style.display = 'block';
   }
 }
 
 // Evita que nombres/descripciones con caracteres especiales rompan el HTML
 function escapeHTML(str) {
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
+  return String(str ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
-// Evita que un nombre con comillas rompa el onclick
+// Para meter texto dentro de un onclick="fn('...')": primero se escapa para JS y después para HTML
 function escapeJS(str) {
-  return String(str).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+  return escapeHTML(String(str ?? '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\r?\n/g, ' '));
 }
 
 document.addEventListener('DOMContentLoaded', cargarProductos);
